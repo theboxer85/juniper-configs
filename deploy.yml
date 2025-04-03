@@ -1,0 +1,16 @@
+- name: Deploy Juniper Configurations
+  hosts: all
+  connection: netconf  # Juniper prefers NETCONF, but SSH works too
+  gather_facts: no
+  tasks:
+    - name: Apply configuration
+      junipernetworks.junos.junos_config:
+        src: "configs/{{ inventory_hostname }}.conf"
+        update: merge  # Merges config, use 'replace' for full overwrite
+        confirm: 10    # Auto-rolls back in 10 minutes if not confirmed
+      register: result
+
+    - name: Commit changes
+      junipernetworks.junos.junos_config:
+        commit: true
+      when: result.changed

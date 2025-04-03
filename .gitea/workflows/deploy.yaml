@@ -1,0 +1,19 @@
+name: Deploy Juniper Configs
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-configs:
+    runs-on: docker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy with Ansible
+        run: |
+          pip install ansible
+          ansible-galaxy collection install junipernetworks.junos
+          ansible-playbook -i inventory.yml deploy.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False
+          JUNOS_PASSWORD: ${{ secrets.JUNOS_PASSWORD }}

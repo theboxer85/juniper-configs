@@ -1,0 +1,12 @@
+all:
+  hosts:
+    #switch1:
+    #  ansible_host: 192.168.1.1  # Replace with your device IP
+    #  ansible_user: admin
+    #  ansible_password: "{{ lookup('env', 'JUNOS_PASSWORD') }}"
+    #  ansible_network_os: junos
+    switch2:
+      ansible_host: 10.0.1.125
+      ansible_user: labuser
+      ansible_password: root123
+      ansible_network_os: junos
